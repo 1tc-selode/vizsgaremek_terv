@@ -74,72 +74,64 @@ A rendszer két felhasználói szerepkört támogat:
 ## Főbb Funkciók
 
 ### 1. Bejelentési Rendszer (CRUD)
-- **Bejelentés létrehozása**: Felhasználók új UFO vagy paranormális észlelést jelenthetnek
-  - Dátum és időpont
-  - **Helyszín (interaktív térkép)**:
-    - Google Maps integráció a form-ban
-    - Felhasználó rákattint a térképen az esemény helyszínére
-    - Koordináták automatikusan kitöltődnek az input mezőbe
-    - Marker megjelenítése a kiválasztott ponton
-  - Jelenség típusa (UFO, szellem, kriptid, stb.)
-  - Részletes leírás
-  - Fotó feltöltés
-  - Tanúk száma
-  
-- **Bejelentések listázása**: Szűrhető és kereshető lista
-  - Kategória szerint
-  - Helyszín szerint
-  - Időpont szerint
-  - Hitelesség szerint
 
-- **Bejelentés megtekintése**: Részletes információk egyedi bejelentésről
-  - Minden adat megjelenítése
-  - **Helyszín térképen**: Google Maps beágyazva a bejelentés pontjával
-  - Koordináta szöveg helyett interaktív térkép látszik
-  - Marker a pontos helyszínen
+**Home (Főoldal) - Lista Nézet**
+- Reddit-szerű bejelentések megjelenítése kártyákban
+- Minden kártyán: cím, kategória, dátum, helyszín, hitelesség pontszám
+- **Fel/Le szavazás**: Minden bejelentésnél lehet értékelni a hitelességet (mint Reddit)
+- **Részletek gomb**: Teljes bejelentés megnyitása
+- **Kezelés gombok a listában**:
+  - User: Saját bejelentéseknél "Módosítás" és "Törlés"
+  - Admin: Minden bejelentésnél "Módosítás" és "Törlés"
+- Szűrési lehetőségek: kategória, dátum, hitelesség szerint
+
+**Bejelentés Részletek Oldal**
+- Teljes bejelentés megjelenítése:
+  - Minden adat (cím, leírás, dátum, helyszín, tanúk száma)
+  - Google Maps térkép beágyazva a helyszínnel és markerrel
   - Képgaléria
-  
-- **Bejelentés módosítása**: 
-  - User: Saját bejelentések szerkesztése
-  - Admin: Bármely bejelentés szerkesztése
+  - Létrehozó és létrehozás dátuma
+- **Fel/Le szavazás**: Itt is lehet értékelni
+- **Kezelés gombok**:
+  - User: "Módosítás" és "Törlés" ha saját bejelentés
+  - Admin: "Módosítás" és "Törlés" minden bejelentésnél
 
-- **Bejelentés törlése**: 
-  - User: Saját bejelentések eltávolítása
-  - Admin: Bármely bejelentés eltávolítása
+**Új Bejelentés Létrehozása / Módosítás Oldal**
+- Form bejelentés készítéséhez:
+  - Cím
+  - Kategória választó
+  - Részletes leírás
+  - Dátum és időpont
+  - **Interaktív Google Maps térkép**: kattintással koordináták kiválasztása
+  - Tanúk száma
+  - Képek feltöltése (több kép is)
+- "Mentés" és "Mégse" gombok
 
-### 2. Fotó Galéria
-- Képek feltöltése bejelentésekhez
-- Több kép támogatása bejelenésenként
-- Miniatűr nézet és teljes méret
-- Képoptimalizálás (backend)
+### 2. Hitelességi Értékelési Rendszer
+- **Fel/Le szavazás** (Reddit-szerű):
+  - A főoldalon (lista nézetben)
+  - A részletek oldalon
+- Hitelesség pontszám számítása (fel szavazatok - le szavazatok)
+- Egy felhasználó csak egyszer szavazhat egy bejelentésre
+- Valós idejű pontszám frissítés
 
-### 3. Hitelességi Pont Rendszer
-- Felhasználók értékelhetik mások bejelentéseit
-- "Hiteles" vagy "Kétséges" szavazatok
-- Hitelességi pontszám számítása
-- Felhasználói reputáció
-
-### 4. Felhasználói Rendszer
-- Regisztráció, bejelentkezés, kijelentkezés
-- Profil kezelés
-- Saját bejelentések listázása
-- Aktivitási előzmények
-- Felhasználói statisztikák (bejelentések száma, reputáció)
-
-### 5. Admin Funkciók
-- **Admin Dashboard**: Áttekintés a rendszer állapotáról
-- **Moderáció**: Bejelentések jóváhagyása/elutasítása
-- **Felhasználók kezelése**: Felhasználók listázása, tiltása
-- **Tartalom törlés**: Bármely bejelentés törlése
-- **Kategóriák kezelése**: Új kategóriák létrehozása, módosítása, törlése
-- **Képek kezelése**: Nem megfelelő képek törlése
-- **Statisztikák megtekintése**: Részletes riportok
-
-### 6. Statisztikák és Dashboard
-- Bejelentések száma kategóriánként
-- Havi/éves trendek
+### 3. Statisztikák Oldal
+- Bejelentések száma kategóriánként (diagram)
+- Havi/éves trendek (vonaldiagram)
 - Legnépszerűbb helyszínek
+- Top bejelentések hitelesség szerint
 - Legaktívabb felhasználók
+- Összesített adatok
+
+### 4. Admin Funkciók
+- **Admin Dashboard**: Rendszer áttekintés
+- **Bejelentések moderálása**: 
+  - Összes bejelentés kezelése
+  - Bármely bejelentés módosítása vagy törlése (listában és részletekben is)
+- **Felhasználók kezelése**: Felhasználók listája, tiltás funkció
+- **Kategóriák kezelése**: Kategóriák létrehozása, módosítása, törlése
+- **Képek moderálása**: Nem megfelelő képek törlése
+- **Statisztikák megtekintése**: Részletes riportok
 
 ## API Végpontok (Backend - Laravel)
 
