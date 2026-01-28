@@ -58,8 +58,7 @@ A rendszer két felhasználói szerepkört támogat:
   - **Helyszín (interaktív térkép)**:
     - Google Maps integráció a form-ban
     - Felhasználó rákattint a térképen az esemény helyszínére
-    - Koordináták automatikusan kitöltődnek DMS formátumban az input mezőbe
-    - Formátum: `46°56'31.6"N 20°28'04.0"E`
+    - Koordináták automatikusan kitöltődnek az input mezőbe
     - Marker megjelenítése a kiválasztott ponton
   - Jelenség típusa (UFO, szellem, kriptid, stb.)
   - Részletes leírás
@@ -99,10 +98,6 @@ A rendszer két felhasználói szerepkört támogat:
 - Szűrés típus, időszak szerint
 - Kattintható marker-ek részletes információkkal
 - "Hotspot" területek kiemelése (sok bejelentés egy helyen)
-- **Koordináta konverzió**: 
-  - DMS formátum (Degrees Minutes Seconds): `46°56'31.6"N 20°28'04.0"E`
-  - Decimal formátum tárolása adatbázisban: `46.942111, 20.467778`
-  - Konverzió a két formátum között (backend)
 
 ### 3. Fotó Galéria
 - Képek feltöltése bejelentésekhez
@@ -204,7 +199,6 @@ A rendszer két felhasználói szerepkört támogat:
 ## Egyedi Jellemzők
 
 - **Interaktív koordináta választás**: Térképre kattintva automatikus kitöltés
-- **DMS koordináta formátum**: Felhasználóbarát megjelenítés
 - **Beágyazott térképek**: Koordináta szöveg helyett vizuális térkép
 - **Kategorizálás**: Részletes jelenség típusok
 - **Gamifikáció**: Jelvények, szintek a felhasználóknak
