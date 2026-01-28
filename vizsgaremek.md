@@ -41,14 +41,6 @@ Olyan platform létrehozása, ahol a felhasználók:
 - **Report -> Votes:** 1:N (egy bejelentést több felhasználó értékelhet)
 - **User -> Votes:** 1:N (egy felhasználó több szavazatot leadhat)
 - **User -> Report -> Votes:** N:M (many-to-many: felhasználók értékelik a bejelentéseket)
-
-### Megszorítások:
-- **email:** Egyedi index a users táblában
-- **user_id + report_id:** Egyedi kombinációja a votes táblában (egy user csak egyszer szavazhat egy bejelenésre)
-- **role:** ENUM típus ('user', 'admin') alapértelmezett érték: 'user'
-- **status:** ENUM típus ('pending', 'approved', 'rejected') alapértelmezett érték: 'pending'
-- **vote_type:** ENUM típus ('credible', 'doubtful')
-- **Soft Delete:** Minden táblában deleted_at mező biztosítja a logikai törlést (Laravel SoftDeletes trait)
 ---
 
 ## Authentikáció és Szerepkörök
