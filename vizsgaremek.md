@@ -22,34 +22,6 @@ Olyan platform létrehozása, ahol a felhasználók:
 - **Térkép**: Google Maps API
 - **Authentikáció**: Laravel Sanctum (Bearer Token)
 
-## Authentikáció és Szerepkörök
-
-A rendszer két felhasználói szerepkört támogat:
-
-### User (Felhasználó)
-- Bejelentések létrehozása
-- Saját bejelentések módosítása és törlése
-- Képek feltöltése bejelentésekhez
-- Mások bejelentéseinek értékelése
-- Bejelentések böngészése és megtekintése
-
-### Admin (Adminisztrátor)
-- Minden User jogosultság
-- **Bármely bejelentés módosítása és törlése**
-- Bejelentések moderálása (jóváhagyás/elutasítás)
-- Felhasználók kezelése és tiltása
-- Kategóriák kezelése (létrehozás, módosítás, törlés)
-- Bármely kép törlése
-- Rendszer statisztikák megtekintése
-
-### Authentikáció Működése
-- **Laravel Sanctum** Bearer token alapú authentikáció
-- **Regisztráció**: Új felhasználók automatikusan "User" szerepkört kapnak
-- **Login**: Bearer token generálása sikeres bejelentkezés után
-- **Logout**: Token érvénytelenítése
-- **Védett végpontok**: `Authorization: Bearer {token}` header szükséges
-- **Szerepkör ellenőrzés**: Middleware-ek biztosítják a jogosultság-alapú hozzáférést
-
 ## Adatbázis Terv
 
 ```
@@ -130,6 +102,34 @@ stateless autentikációt biztosítanak aláírt tokenekkel.
 - **vote_type:** ENUM típus ('credible', 'doubtful')
 - **Soft Delete:** Minden táblában deleted_at mező biztosítja a logikai törlést (Laravel SoftDeletes trait)
 ---
+
+## Authentikáció és Szerepkörök
+
+A rendszer két felhasználói szerepkört támogat:
+
+### User (Felhasználó)
+- Bejelentések létrehozása
+- Saját bejelentések módosítása és törlése
+- Képek feltöltése bejelentésekhez
+- Mások bejelentéseinek értékelése
+- Bejelentések böngészése és megtekintése
+
+### Admin (Adminisztrátor)
+- Minden User jogosultság
+- **Bármely bejelentés módosítása és törlése**
+- Bejelentések moderálása (jóváhagyás/elutasítás)
+- Felhasználók kezelése és tiltása
+- Kategóriák kezelése (létrehozás, módosítás, törlés)
+- Bármely kép törlése
+- Rendszer statisztikák megtekintése
+
+### Authentikáció Működése
+- **Laravel Sanctum** Bearer token alapú authentikáció
+- **Regisztráció**: Új felhasználók automatikusan "User" szerepkört kapnak
+- **Login**: Bearer token generálása sikeres bejelentkezés után
+- **Logout**: Token érvénytelenítése
+- **Védett végpontok**: `Authorization: Bearer {token}` header szükséges
+- **Szerepkör ellenőrzés**: Middleware-ek biztosítják a jogosultság-alapú hozzáférést
 
 ## Főbb Funkciók
 
