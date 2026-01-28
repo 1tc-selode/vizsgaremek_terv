@@ -1,4 +1,4 @@
-# 🛸 UFO / Paranormális Jelentő Rendszer - Vizsgaremek Terv
+# UFO / Paranormális Jelentő Rendszer - Vizsgaremek Terv
 
 ## Projekt Áttekintés
 
@@ -24,7 +24,7 @@ Olyan platform létrehozása, ahol a felhasználók:
 
 ## Főbb Funkciók
 
-### 1. 📝 Bejelentési Rendszer (CRUD)
+### 1. Bejelentési Rendszer (CRUD)
 - **Bejelentés létrehozása**: Felhasználók új UFO vagy paranormális észlelést jelenthetnek
   - Dátum és időpont
   - Helyszín (koordináták)
@@ -45,7 +45,7 @@ Olyan platform létrehozása, ahol a felhasználók:
 
 - **Bejelentés törlése**: Saját bejelentések eltávolítása
 
-### 2. 🗺️ Interaktív Térkép (Google Maps API)
+### 2. Interaktív Térkép (Google Maps API)
 - Bejelentések megjelenítése térképen
 - Google Maps integráció
 - Egyedi marker-ek a bejelentésekhez
@@ -55,19 +55,19 @@ Olyan platform létrehozása, ahol a felhasználók:
 - "Hotspot" területek kiemelése (sok bejelentés egy helyen)
 - Geocoding: cím alapján koordináták meghatározása
 
-### 3. 📸 Fotó Galéria
+### 3. Fotó Galéria
 - Képek feltöltése bejelentésekhez
 - Több kép támogatása bejelenésenként
 - Miniatűr nézet és teljes méret
 - Képoptimalizálás (backend)
 
-### 4. ⭐ Hitelességi Pont Rendszer
+### 4. Hitelességi Pont Rendszer
 - Felhasználók értékelhetik mások bejelentéseit
 - "Hiteles" vagy "Kétséges" szavazatok
 - Hitelességi pontszám számítása
 - Felhasználói reputáció
 
-### 5. 👤 Felhasználói Rendszer
+### 5. Felhasználói Rendszer
 - **Regisztráció**: Új felhasználók regisztrálása
 - **Bejelentkezés (Login)**: JWT token alapú authentikáció
 - **Kijelentkezés (Logout)**: Token érvénytelenítése
@@ -78,7 +78,7 @@ Olyan platform létrehozása, ahol a felhasználók:
 - Saját bejelentések kezelése
 - Aktivitási előzmények
 
-### 6. �️ Admin Funkciók
+### 6. Admin Funkciók
 - **Admin Dashboard**: Áttekintés a rendszer állapotáról
 - **Moderáció**: Bejelentések jóváhagyása/elutasítása
 - **Felhasználók kezelése**: Felhasználók listázása, tiltása
@@ -87,7 +87,7 @@ Olyan platform létrehozása, ahol a felhasználók:
 - **Képek kezelése**: Nem megfelelő képek törlése
 - **Statisztikák megtekintése**: Részletes riportok
 
-### 7. �📊 Statisztikák és Dashboard
+### 7. Statisztikák és Dashboard
 - Bejelentések száma kategóriánként
 - Havi/éves trendek
 - Legnépszerűbb helyszínek
@@ -164,18 +164,18 @@ Olyan platform létrehozása, ahol a felhasználók:
 
 ## Projekt Előnyei Vizsgán
 
-✅ **Komplex CRUD műveletek** - Teljes értékű adatkezelés  
-✅ **REST API** - Backend-Frontend szétválasztás  
-✅ **Adatvalidáció** - Backend és Frontend szinten  
-✅ **Autentikáció & Authorizáció** - Laravel Sanctum Bearer token, szerepkör-alapú hozzáférés  
-✅ **Register/Login/Logout** - Teljes felhasználói életciklus  
-✅ **Admin felület** - Moderációs és kezelési funkciók  
-✅ **Fájl kezelés** - Kép feltöltés és tárolás  
-✅ **Google Maps API** - Térkép integráció, Geocoding, Marker Clustering  
-✅ **MySQL adatbázis** - Relációs adatbázis tervezés és kezelés  
-✅ **Responsive dizájn** - Mobilbarát felület  
-✅ **Adatbázis kapcsolatok** - Relációk kezelése (1:N, N:M)  
-✅ **Biztonsági szempontok** - SQL injection védelem, XSS védelem, szerepkör-alapú jogosultságok  
+**Komplex CRUD műveletek** - Teljes értékű adatkezelés  
+**REST API** - Backend-Frontend szétválasztás  
+**Adatvalidáció** - Backend és Frontend szinten  
+**Autentikáció & Authorizáció** - Laravel Sanctum Bearer token, szerepkör-alapú hozzáférés  
+**Register/Login/Logout** - Teljes felhasználói életciklus  
+**Admin felület** - Moderációs és kezelési funkciók  
+**Fájl kezelés** - Kép feltöltés és tárolás  
+**Google Maps API** - Térkép integráció, Geocoding, Marker Clustering  
+**MySQL adatbázis** - Relációs adatbázis tervezés és kezelés  
+**Responsive dizájn** - Mobilbarát felület  
+**Adatbázis kapcsolatok** - Relációk kezelése (1:N, N:M)  
+**Biztonsági szempontok** - SQL injection védelem, XSS védelem, szerepkör-alapú jogosultságok  
 
 ## Fejlesztési Fázisok
 
