@@ -22,12 +22,45 @@ Olyan platform létrehozása, ahol a felhasználók:
 - **Térkép**: Google Maps API
 - **Authentikáció**: Laravel Sanctum (Bearer Token)
 
+## Authentikáció és Szerepkörök
+
+A rendszer két felhasználói szerepkört támogat:
+
+### User (Felhasználó)
+- Bejelentések létrehozása
+- Saját bejelentések módosítása és törlése
+- Képek feltöltése bejelentésekhez
+- Mások bejelentéseinek értékelése
+- Bejelentések böngészése és megtekintése
+
+### Admin (Adminisztrátor)
+- Minden User jogosultság
+- **Bármely bejelentés módosítása és törlése**
+- Bejelentések moderálása (jóváhagyás/elutasítás)
+- Felhasználók kezelése és tiltása
+- Kategóriák kezelése (létrehozás, módosítás, törlés)
+- Bármely kép törlése
+- Rendszer statisztikák megtekintése
+
+### Authentikáció Működése
+- **Laravel Sanctum** Bearer token alapú authentikáció
+- **Regisztráció**: Új felhasználók automatikusan "User" szerepkört kapnak
+- **Login**: Bearer token generálása sikeres bejelentkezés után
+- **Logout**: Token érvénytelenítése
+- **Védett végpontok**: `Authorization: Bearer {token}` header szükséges
+- **Szerepkör ellenőrzés**: Middleware-ek biztosítják a jogosultság-alapú hozzáférést
+
 ## Főbb Funkciók
 
 ### 1. Bejelentési Rendszer (CRUD)
 - **Bejelentés létrehozása**: Felhasználók új UFO vagy paranormális észlelést jelenthetnek
   - Dátum és időpont
-  - Helyszín (koordináták)
+  - **Helyszín (interaktív térkép)**:
+    - Google Maps integráció a form-ban
+    - Felhasználó rákattint a térképen az esemény helyszínére
+    - Koordináták automatikusan kitöltődnek DMS formátumban az input mezőbe
+    - Formátum: `46°56'31.6"N 20°28'04.0"E`
+    - Marker megjelenítése a kiválasztott ponton
   - Jelenség típusa (UFO, szellem, kriptid, stb.)
   - Részletes leírás
   - Fotó feltöltés
@@ -40,12 +73,25 @@ Olyan platform létrehozása, ahol a felhasználók:
   - Hitelesség szerint
 
 - **Bejelentés megtekintése**: Részletes információk egyedi bejelentésről
+  - Minden adat megjelenítése
+  - **Helyszín térképen**: Google Maps beágyazva a bejelentés pontjával
+  - Koordináta szöveg helyett interaktív térkép látszik
+  - Marker a pontos helyszínen
+  - Képgaléria
   
-- **Bejelentés módosítása**: Saját bejelentések szerkesztése
+- **Bejelentés módosítása**: 
+  - User: Saját bejelentések szerkesztése
+  - Admin: Bármely bejelentés szerkesztése
 
-- **Bejelentés törlése**: Saját bejelentések eltávolítása
+- **Bejelentés törlése**: 
+  - User: Saját bejelentések eltávolítása
+  - Admin: Bármely bejelentés eltávolítása
 
 ### 2. Interaktív Térkép (Google Maps API)
+- **Többszörös felhasználás**:
+  - Bejelentés létrehozása (helyszín kiválasztása kattintással)
+  - Bejelentés részletek (egyedi pont megjelenítése)
+  - Összes bejelentés megjelenítése (lista nézet)
 - Bejelentések megjelenítése térképen
 - Google Maps integráció
 - Egyedi marker-ek a bejelentésekhez
@@ -53,7 +99,10 @@ Olyan platform létrehozása, ahol a felhasználók:
 - Szűrés típus, időszak szerint
 - Kattintható marker-ek részletes információkkal
 - "Hotspot" területek kiemelése (sok bejelentés egy helyen)
-- Geocoding: cím alapján koordináták meghatározása
+- **Koordináta konverzió**: 
+  - DMS formátum (Degrees Minutes Seconds): `46°56'31.6"N 20°28'04.0"E`
+  - Decimal formátum tárolása adatbázisban: `46.942111, 20.467778`
+  - Konverzió a két formátum között (backend)
 
 ### 3. Fotó Galéria
 - Képek feltöltése bejelentésekhez
@@ -68,15 +117,11 @@ Olyan platform létrehozása, ahol a felhasználók:
 - Felhasználói reputáció
 
 ### 5. Felhasználói Rendszer
-- **Regisztráció**: Új felhasználók regisztrálása
-- **Bejelentkezés (Login)**: JWT token alapú authentikáció
-- **Kijelentkezés (Logout)**: Token érvénytelenítése
-- **Szerepkörök**:
-  - **User**: Bejelentések létrehozása, szerkesztése, saját tartalmak kezelése
-  - **Admin**: Minden bejelentés moderálása, törlése, felhasználók kezelése
+- Regisztráció, bejelentkezés, kijelentkezés
 - Profil kezelés
-- Saját bejelentések kezelése
+- Saját bejelentések listázása
 - Aktivitási előzmények
+- Felhasználói statisztikák (bejelentések száma, reputáció)
 
 ### 6. Admin Funkciók
 - **Admin Dashboard**: Áttekintés a rendszer állapotáról
@@ -158,6 +203,9 @@ Olyan platform létrehozása, ahol a felhasználók:
 
 ## Egyedi Jellemzők
 
+- **Interaktív koordináta választás**: Térképre kattintva automatikus kitöltés
+- **DMS koordináta formátum**: Felhasználóbarát megjelenítés
+- **Beágyazott térképek**: Koordináta szöveg helyett vizuális térkép
 - **Kategorizálás**: Részletes jelenség típusok
 - **Gamifikáció**: Jelvények, szintek a felhasználóknak
 - **Modern dizájn**: Felhasználóbarát felület
