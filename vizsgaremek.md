@@ -50,67 +50,72 @@ A rendszer két felhasználói szerepkört támogat:
 - **Védett végpontok**: `Authorization: Bearer {token}` header szükséges
 - **Szerepkör ellenőrzés**: Middleware-ek biztosítják a jogosultság-alapú hozzáférést
 
-## Adatbázis Struktúra (MySQL)
+## Adatbázis Terv
 
-### users (Felhasználók)
-| Mező | Típus | Leírás |
-|------|------|----------|
-| id | INT (PK) | Egyedi azonosító |
-| name | VARCHAR(255) | Felhasználó neve |
-| email | VARCHAR(255) | E-mail cím (egyedi) |
-| password | VARCHAR(255) | Titkosított jelszó |
-| role | ENUM('user', 'admin') | Szerepkör |
-| created_at | TIMESTAMP | Létrehozás dátuma |
-| updated_at | TIMESTAMP | Módosítás dátuma |
+```
++---------------------+       +--------------------+       +---------------------+
+|       users         |       |     categories     |       |      reports        |
++---------------------+       +--------------------+       +---------------------+
+| id (PK)             |1__    | id (PK)            |    __1| id (PK)             |
+| name                |   \   | name               |   /   | user_id (FK)        |
+| email (unique)      |    \  | description        |  /    | category_id (FK)    |
+| password            |     \_| created_at         |_/     | title               |
+| role (user/admin)   |       | updated_at         |       | description         |
+| created_at          |       +--------------------+       | latitude            |
+| updated_at          |                                    | longitude           |
++---------------------+                                    | date                |
+       |1                                                  | witnesses           |
+       |                                                   | status              |
+       |                                                   | created_at          |
+       |                                                   | updated_at          |
+       |__________                                         +---------------------+
+                 \                                                 |1
+                  \                                                |
+                   \                                               |
+                    \          +---------------------+             |
+                     \         |   report_images     |             |
+                      \        +---------------------+             |
+                       \    __1| id (PK)             |             |
+                        \  /   | report_id (FK)      |_____________|
+                         \/    | image_path          |            N|
+                         /\    | created_at          |
+                        /  \   +---------------------+
+                       /    N
+                      /
+                     /
+       +------------+
+       |   votes    |
+       +------------+
+    __1| id (PK)    |
+   /   | report_id (FK)
+  /    | user_id (FK)
+ /     | vote_type
+/      | created_at
+|      +------------+
+|             |1
+|_____________|
+             N|
+```
 
-### categories (Kategóriák)
-| Mező | Típus | Leírás |
-|------|------|----------|
-| id | INT (PK) | Egyedi azonosító |
-| name | VARCHAR(100) | Kategória neve |
-| description | TEXT | Kategória leírása |
-| created_at | TIMESTAMP | Létrehozás dátuma |
-| updated_at | TIMESTAMP | Módosítás dátuma |
+**Megjegyzés:** Laravel Sanctum Bearer tokenek nem kerülnek tárolásra az adatbázisban,
+stateless autentikációt biztosítanak aláírt tokenekkel.
 
-### reports (Bejelentések)
-| Mező | Típus | Leírás |
-|------|------|----------|
-| id | INT (PK) | Egyedi azonosító |
-| user_id | INT (FK) | Felhasználó azonosító |
-| category_id | INT (FK) | Kategória azonosító |
-| title | VARCHAR(255) | Bejelentés címe |
-| description | TEXT | Részletes leírás |
-| latitude | DECIMAL(10, 8) | Földrajzi szélesség |
-| longitude | DECIMAL(11, 8) | Földrajzi hosszúság |
-| date | DATETIME | Esemény dátuma |
-| witnesses | INT | Tanúk száma |
-| status | ENUM('pending', 'approved', 'rejected') | Állapot |
-| created_at | TIMESTAMP | Létrehozás dátuma |
-| updated_at | TIMESTAMP | Módosítás dátuma |
+### Kapcsolatok:
+- **User -> Reports:** 1:N (egy felhasználó több bejelentést hozhat létre)
+- **Category -> Reports:** 1:N (egy kategóriához több bejelentés tartozhat)
+- **Report -> Report Images:** 1:N (egy bejelentéshez több kép tartozhat)
+- **Report -> Votes:** 1:N (egy bejelentést több felhasználó értékelhet)
+- **User -> Votes:** 1:N (egy felhasználó több szavazatot leadhat)
+- **User -> Report -> Votes:** N:M (many-to-many: felhasználók értékelik a bejelentéseket)
 
-### report_images (Képek)
-| Mező | Típus | Leírás |
-|------|------|----------|
-| id | INT (PK) | Egyedi azonosító |
-| report_id | INT (FK) | Bejelentés azonosító |
-| image_path | VARCHAR(255) | Kép elérési úja |
-| created_at | TIMESTAMP | Feltöltés dátuma |
+### Megszorítások:
+- **email:** Egyedi index a users táblában
+- **user_id + report_id:** Egyedi kombinációja a votes táblában (egy user csak egyszer szavazhat egy bejelenésre)
+- **role:** ENUM típus ('user', 'admin') alapértelmezett érték: 'user'
+- **status:** ENUM típus ('pending', 'approved', 'rejected') alapértelmezett érték: 'pending'
+- **vote_type:** ENUM típus ('credible', 'doubtful')
 
-### votes (Hitelességi szavazatok)
-| Mező | Típus | Leírás |
-|------|------|----------|
-| id | INT (PK) | Egyedi azonosító |
-| report_id | INT (FK) | Bejelentés azonosító |
-| user_id | INT (FK) | Felhasználó azonosító |
-| vote_type | ENUM('credible', 'doubtful') | Szavazat típusa |
-| created_at | TIMESTAMP | Szavazás dátuma |
-
-### Relációk
-- `users` 1:N `reports` - Egy felhasználó több bejelentést készíthet
-- `categories` 1:N `reports` - Egy kategóriához több bejelentés tartozhat
-- `reports` 1:N `report_images` - Egy bejelentéshez több kép tartozhat
-- `reports` 1:N `votes` - Egy bejelentést több felhasználó értékelhet
-- `users` 1:N `votes` - Egy felhasználó több szavazatot leadhat
+---
 
 ## Főbb Funkciók
 
