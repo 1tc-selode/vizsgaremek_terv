@@ -53,48 +53,62 @@ A rendszer két felhasználói szerepkört támogat:
 ## Adatbázis Terv
 
 ```
-+---------------------+       +--------------------+       +---------------------+
-|       users         |       |     categories     |       |      reports        |
-+---------------------+       +--------------------+       +---------------------+
-| id (PK)             |1__    | id (PK)            |    __1| id (PK)             |
-| name                |   \   | name               |   /   | user_id (FK)        |
-| email (unique)      |    \  | description        |  /    | category_id (FK)    |
-| password            |     \_| created_at         |_/     | title               |
-| role (user/admin)   |       | updated_at         |       | description         |
-| created_at          |       +--------------------+       | latitude            |
-| updated_at          |                                    | longitude           |
-+---------------------+                                    | date                |
-       |1                                                  | witnesses           |
-       |                                                   | status              |
-       |                                                   | created_at          |
-       |                                                   | updated_at          |
-       |__________                                         +---------------------+
-                 \                                                 |1
-                  \                                                |
-                   \                                               |
-                    \          +---------------------+             |
-                     \         |   report_images     |             |
-                      \        +---------------------+             |
-                       \    __1| id (PK)             |             |
-                        \  /   | report_id (FK)      |_____________|
-                         \/    | image_path          |            N|
-                         /\    | created_at          |
-                        /  \   +---------------------+
-                       /    N
-                      /
-                     /
-       +------------+
-       |   votes    |
-       +------------+
-    __1| id (PK)    |
-   /   | report_id (FK)
-  /    | user_id (FK)
- /     | vote_type
-/      | created_at
-|      +------------+
-|             |1
-|_____________|
-             N|
++---------------------+           +--------------------+
+|       users         |           |    categories      |
++---------------------+           +--------------------+
+| id (PK)             |           | id (PK)            |
+| name                |           | name               |
+| email (unique)      |           | description        |
+| password            |           | created_at         |
+| role (user/admin)   |           | updated_at         |
+| created_at          |           | deleted_at         |
+| updated_at          |           +--------------------+
+| deleted_at          |                    |1
++---------------------+                    |
+         |1                                |
+         |                                 |
+         |                                 |
+         |                                 V
+         |                        +---------------------+
+         |                        |      reports        |
+         |                        +---------------------+
+         |                     /--| id (PK)             |
+         |                    /   | user_id (FK)        |---\
+         |                   /    | category_id (FK)    |   |
+         |                  /     | title               |   |
+         |                 /      | description         |   |
+         |                /       | latitude            |   |
+         |               /        | longitude           |   |
+         |              /         | date                |   |
+         |             /          | witnesses           |   |
+         |            /           | status              |   |
+         |           /            | created_at          |   |
+         |          /             | updated_at          |   |
+         |         /              | deleted_at          |   |
+         |        /               +---------------------+   |
+         |        /                        |1               |
+         |       /                         |                |
+         |      /                          |                |
+         |     /                           V                |
+         |    /                   +---------------------+   |
+         |   /                    |  report_images      |   |
+         |  /                     +---------------------+   |
+         | /                      | id (PK)             |   |
+         |/                       | report_id (FK)      |   |
+         |                        | image_path          |   |
+         |                        | created_at          |   |
+         |                        +---------------------+   |
+         |                                                  |
+         |                                                  |
+         |                                                  |
+         |                        +---------------------+   |
+         |                        |       votes         |   |
+         |                        +---------------------+   |
+         |                        | id (PK)             |   |
+         +------------------------| user_id (FK)        |   |
+                                  | report_id (FK)      |---/
+                                  | vote_type           |
+                                  | created_at          |                                  | deleted_at          |                                  +---------------------+
 ```
 
 **Megjegyzés:** Laravel Sanctum Bearer tokenek nem kerülnek tárolásra az adatbázisban,
@@ -114,7 +128,7 @@ stateless autentikációt biztosítanak aláírt tokenekkel.
 - **role:** ENUM típus ('user', 'admin') alapértelmezett érték: 'user'
 - **status:** ENUM típus ('pending', 'approved', 'rejected') alapértelmezett érték: 'pending'
 - **vote_type:** ENUM típus ('credible', 'doubtful')
-
+- **Soft Delete:** Minden táblában deleted_at mező biztosítja a logikai törlést (Laravel SoftDeletes trait)
 ---
 
 ## Főbb Funkciók
