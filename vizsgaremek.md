@@ -34,9 +34,6 @@ Olyan platform létrehozása, ahol a felhasználók:
 
 **votes:** id, report_id (FK), user_id (FK), vote_type, created_at, deleted_at
 
-**Megjegyzés:** Laravel Sanctum Bearer tokenek nem kerülnek tárolásra az adatbázisban,
-stateless autentikációt biztosítanak aláírt tokenekkel.
-
 ### Kapcsolatok:
 - **User -> Reports:** 1:N (egy felhasználó több bejelentést hozhat létre)
 - **Category -> Reports:** 1:N (egy kategóriához több bejelentés tartozhat)
