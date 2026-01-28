@@ -107,39 +107,26 @@ A rendszer két felhasználói szerepkört támogat:
   - User: Saját bejelentések eltávolítása
   - Admin: Bármely bejelentés eltávolítása
 
-### 2. Interaktív Térkép (Google Maps API)
-- **Többszörös felhasználás**:
-  - Bejelentés létrehozása (helyszín kiválasztása kattintással)
-  - Bejelentés részletek (egyedi pont megjelenítése)
-  - Összes bejelentés megjelenítése (lista nézet)
-- Bejelentések megjelenítése térképen
-- Google Maps integráció
-- Egyedi marker-ek a bejelentésekhez
-- Klaszterezés nagy mennyiségű adat esetén (Marker Clustering)
-- Szűrés típus, időszak szerint
-- Kattintható marker-ek részletes információkkal
-- "Hotspot" területek kiemelése (sok bejelentés egy helyen)
-
-### 3. Fotó Galéria
+### 2. Fotó Galéria
 - Képek feltöltése bejelentésekhez
 - Több kép támogatása bejelenésenként
 - Miniatűr nézet és teljes méret
 - Képoptimalizálás (backend)
 
-### 4. Hitelességi Pont Rendszer
+### 3. Hitelességi Pont Rendszer
 - Felhasználók értékelhetik mások bejelentéseit
 - "Hiteles" vagy "Kétséges" szavazatok
 - Hitelességi pontszám számítása
 - Felhasználói reputáció
 
-### 5. Felhasználói Rendszer
+### 4. Felhasználói Rendszer
 - Regisztráció, bejelentkezés, kijelentkezés
 - Profil kezelés
 - Saját bejelentések listázása
 - Aktivitási előzmények
 - Felhasználói statisztikák (bejelentések száma, reputáció)
 
-### 6. Admin Funkciók
+### 5. Admin Funkciók
 - **Admin Dashboard**: Áttekintés a rendszer állapotáról
 - **Moderáció**: Bejelentések jóváhagyása/elutasítása
 - **Felhasználók kezelése**: Felhasználók listázása, tiltása
@@ -148,7 +135,7 @@ A rendszer két felhasználói szerepkört támogat:
 - **Képek kezelése**: Nem megfelelő képek törlése
 - **Statisztikák megtekintése**: Részletes riportok
 
-### 7. Statisztikák és Dashboard
+### 6. Statisztikák és Dashboard
 - Bejelentések száma kategóriánként
 - Havi/éves trendek
 - Legnépszerűbb helyszínek
