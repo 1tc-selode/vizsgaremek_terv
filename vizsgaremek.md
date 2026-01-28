@@ -50,6 +50,68 @@ A rendszer két felhasználói szerepkört támogat:
 - **Védett végpontok**: `Authorization: Bearer {token}` header szükséges
 - **Szerepkör ellenőrzés**: Middleware-ek biztosítják a jogosultság-alapú hozzáférést
 
+## Adatbázis Struktúra (MySQL)
+
+### users (Felhasználók)
+| Mező | Típus | Leírás |
+|------|------|----------|
+| id | INT (PK) | Egyedi azonosító |
+| name | VARCHAR(255) | Felhasználó neve |
+| email | VARCHAR(255) | E-mail cím (egyedi) |
+| password | VARCHAR(255) | Titkosított jelszó |
+| role | ENUM('user', 'admin') | Szerepkör |
+| created_at | TIMESTAMP | Létrehozás dátuma |
+| updated_at | TIMESTAMP | Módosítás dátuma |
+
+### categories (Kategóriák)
+| Mező | Típus | Leírás |
+|------|------|----------|
+| id | INT (PK) | Egyedi azonosító |
+| name | VARCHAR(100) | Kategória neve |
+| description | TEXT | Kategória leírása |
+| created_at | TIMESTAMP | Létrehozás dátuma |
+| updated_at | TIMESTAMP | Módosítás dátuma |
+
+### reports (Bejelentések)
+| Mező | Típus | Leírás |
+|------|------|----------|
+| id | INT (PK) | Egyedi azonosító |
+| user_id | INT (FK) | Felhasználó azonosító |
+| category_id | INT (FK) | Kategória azonosító |
+| title | VARCHAR(255) | Bejelentés címe |
+| description | TEXT | Részletes leírás |
+| latitude | DECIMAL(10, 8) | Földrajzi szélesség |
+| longitude | DECIMAL(11, 8) | Földrajzi hosszúság |
+| date | DATETIME | Esemény dátuma |
+| witnesses | INT | Tanúk száma |
+| status | ENUM('pending', 'approved', 'rejected') | Állapot |
+| created_at | TIMESTAMP | Létrehozás dátuma |
+| updated_at | TIMESTAMP | Módosítás dátuma |
+
+### report_images (Képek)
+| Mező | Típus | Leírás |
+|------|------|----------|
+| id | INT (PK) | Egyedi azonosító |
+| report_id | INT (FK) | Bejelentés azonosító |
+| image_path | VARCHAR(255) | Kép elérési úja |
+| created_at | TIMESTAMP | Feltöltés dátuma |
+
+### votes (Hitelességi szavazatok)
+| Mező | Típus | Leírás |
+|------|------|----------|
+| id | INT (PK) | Egyedi azonosító |
+| report_id | INT (FK) | Bejelentés azonosító |
+| user_id | INT (FK) | Felhasználó azonosító |
+| vote_type | ENUM('credible', 'doubtful') | Szavazat típusa |
+| created_at | TIMESTAMP | Szavazás dátuma |
+
+### Relációk
+- `users` 1:N `reports` - Egy felhasználó több bejelentést készíthet
+- `categories` 1:N `reports` - Egy kategóriához több bejelentés tartozhat
+- `reports` 1:N `report_images` - Egy bejelentéshez több kép tartozhat
+- `reports` 1:N `votes` - Egy bejelentést több felhasználó értékelhet
+- `users` 1:N `votes` - Egy felhasználó több szavazatot leadhat
+
 ## Főbb Funkciók
 
 ### 1. Bejelentési Rendszer (CRUD)
@@ -186,15 +248,6 @@ A rendszer két felhasználói szerepkört támogat:
 ### Statisztikák
 - `GET /api/statistics` - Általános statisztikák
 - `GET /api/statistics/trends` - Trend adatok
-
-## Adatbázis Struktúra (MySQL)
-
-**users** - Felhasználók (id, name, email, password, role)
-**roles** - Szerepkörök (id: 1=user, 2=admin)
-**reports** - Bejelentések (id, user_id, category_id, title, description, latitude, longitude, date, status)
-**report_images** - Bejelentésekhez tartozó képek (id, report_id, image_path)
-**votes** - Hitelességi szavazatok (id, report_id, user_id, vote_type)
-**categories** - Jelenség típusok (id, name, description)
 
 ## Egyedi Jellemzők
 
