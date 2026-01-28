@@ -24,64 +24,15 @@ Olyan platform létrehozása, ahol a felhasználók:
 
 ## Adatbázis Terv
 
-```
-+---------------------+           +--------------------+
-|       users         |           |    categories      |
-+---------------------+           +--------------------+
-| id (PK)             |           | id (PK)            |
-| name                |           | name               |
-| email (unique)      |           | description        |
-| password            |           | created_at         |
-| role (user/admin)   |           | updated_at         |
-| created_at          |           | deleted_at         |
-| updated_at          |           +--------------------+
-| deleted_at          |                    |1
-+---------------------+                    |
-         |1                                |
-         |                                 |
-         |                                 |
-         |                                 V
-         |                        +---------------------+
-         |                        |      reports        |
-         |                        +---------------------+
-         |                     /--| id (PK)             |
-         |                    /   | user_id (FK)        |---\
-         |                   /    | category_id (FK)    |   |
-         |                  /     | title               |   |
-         |                 /      | description         |   |
-         |                /       | latitude            |   |
-         |               /        | longitude           |   |
-         |              /         | date                |   |
-         |             /          | witnesses           |   |
-         |            /           | status              |   |
-         |           /            | created_at          |   |
-         |          /             | updated_at          |   |
-         |         /              | deleted_at          |   |
-         |        /               +---------------------+   |
-         |        /                        |1               |
-         |       /                         |                |
-         |      /                          |                |
-         |     /                           V                |
-         |    /                   +---------------------+   |
-         |   /                    |  report_images      |   |
-         |  /                     +---------------------+   |
-         | /                      | id (PK)             |   |
-         |/                       | report_id (FK)      |   |
-         |                        | image_path          |   |
-         |                        | created_at          |   |
-         |                        +---------------------+   |
-         |                                                  |
-         |                                                  |
-         |                                                  |
-         |                        +---------------------+   |
-         |                        |       votes         |   |
-         |                        +---------------------+   |
-         |                        | id (PK)             |   |
-         +------------------------| user_id (FK)        |   |
-                                  | report_id (FK)      |---/
-                                  | vote_type           |
-                                  | created_at          |                                  | deleted_at          |                                  +---------------------+
-```
+**users:** id, name, email, password, role, created_at, updated_at, deleted_at
+
+**categories:** id, name, description, created_at, updated_at, deleted_at
+
+**reports:** id, user_id (FK), category_id (FK), title, description, latitude, longitude, date, witnesses, status, created_at, updated_at, deleted_at
+
+**report_images:** id, report_id (FK), image_path, created_at, deleted_at
+
+**votes:** id, report_id (FK), user_id (FK), vote_type, created_at, deleted_at
 
 **Megjegyzés:** Laravel Sanctum Bearer tokenek nem kerülnek tárolásra az adatbázisban,
 stateless autentikációt biztosítanak aláírt tokenekkel.
