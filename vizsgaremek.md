@@ -76,62 +76,36 @@ A rendszer két felhasználói szerepkört támogat:
 ### 1. Bejelentési Rendszer (CRUD)
 
 **Home (Főoldal) - Lista Nézet**
-- Reddit-szerű bejelentések megjelenítése kártyákban
-- Minden kártyán: cím, kategória, dátum, helyszín, hitelesség pontszám
-- **Fel/Le szavazás**: Minden bejelentésnél lehet értékelni a hitelességet (mint Reddit)
-- **Részletek gomb**: Teljes bejelentés megnyitása
-- **Kezelés gombok a listában**:
-  - User: Saját bejelentéseknél "Módosítás" és "Törlés"
-  - Admin: Minden bejelentésnél "Módosítás" és "Törlés"
-- Szűrési lehetőségek: kategória, dátum, hitelesség szerint
+- Reddit-szerű kártyák: cím, kategória, dátum, hitelesség pontszám
+- Fel/Le szavazás minden bejelentésnél
+- Módosítás/Törlés gombok (User: saját, Admin: minden)
+- Szűrés: kategória, dátum, hitelesség
 
-**Bejelentés Részletek Oldal**
-- Teljes bejelentés megjelenítése:
-  - Minden adat (cím, leírás, dátum, helyszín, tanúk száma)
-  - Google Maps térkép beágyazva a helyszínnel és markerrel
-  - Képgaléria
-  - Létrehozó és létrehozás dátuma
-- **Fel/Le szavazás**: Itt is lehet értékelni
-- **Kezelés gombok**:
-  - User: "Módosítás" és "Törlés" ha saját bejelentés
-  - Admin: "Módosítás" és "Törlés" minden bejelentésnél
+**Részletek Oldal**
+- Teljes bejelentés: leírás, Google Maps térkép, képgaléria
+- Fel/Le szavazás
+- Módosítás/Törlés (User: saját, Admin: minden)
 
-**Új Bejelentés Létrehozása / Módosítás Oldal**
-- Form bejelentés készítéséhez:
-  - Cím
-  - Kategória választó
-  - Részletes leírás
-  - Dátum és időpont
-  - **Interaktív Google Maps térkép**: kattintással koordináták kiválasztása
-  - Tanúk száma
-  - Képek feltöltése (több kép is)
-- "Mentés" és "Mégse" gombok
+**Új/Módosítás Oldal**
+- Form: cím, kategória, leírás, dátum, interaktív Google Maps, tanúk száma, képek
+- Mentés/Mégse gombok
 
-### 2. Hitelességi Értékelési Rendszer
-- **Fel/Le szavazás** (Reddit-szerű):
-  - A főoldalon (lista nézetben)
-  - A részletek oldalon
-- Hitelesség pontszám számítása (fel szavazatok - le szavazatok)
-- Egy felhasználó csak egyszer szavazhat egy bejelentésre
-- Valós idejű pontszám frissítés
+### 2. Hitelességi Értékelés
+- Fel/Le szavazás (lista és részletek oldalon)
+- Pontszám számítás: fel - le szavazatok
+- Egy user egyszer szavazhat bejelenésenként
 
-### 3. Statisztikák Oldal
-- Bejelentések száma kategóriánként (diagram)
-- Havi/éves trendek (vonaldiagram)
-- Legnépszerűbb helyszínek
-- Top bejelentések hitelesség szerint
-- Legaktívabb felhasználók
-- Összesített adatok
+### 3. Statisztikák
+- Összes bejelentés eddig
+- Leghitelesebb bejelentés (legmagasabb pontszám)
+- Leg el nem hihető bejelentés (legalacsonyabb pontszám)
 
 ### 4. Admin Funkciók
-- **Admin Dashboard**: Rendszer áttekintés
-- **Bejelentések moderálása**: 
-  - Összes bejelentés kezelése
-  - Bármely bejelentés módosítása vagy törlése (listában és részletekben is)
-- **Felhasználók kezelése**: Felhasználók listája, tiltás funkció
-- **Kategóriák kezelése**: Kategóriák létrehozása, módosítása, törlése
-- **Képek moderálása**: Nem megfelelő képek törlése
-- **Statisztikák megtekintése**: Részletes riportok
+- Dashboard: rendszer áttekintés
+- Bármely bejelentés módosítása/törlése
+- Felhasználók kezelése, tiltás
+- Kategóriák kezelése (CRUD)
+- Képek moderálása
 
 ## API Végpontok (Backend - Laravel)
 
@@ -144,7 +118,6 @@ A rendszer két felhasználói szerepkört támogat:
 
 ### Térkép
 - `GET /api/map/reports` - Bejelentések térképes megjelenítéshez
-- `GET /api/map/hotspots` - Hotspot területek
 
 ### Képek
 - `POST /api/reports/{id}/images` - Kép feltöltése bejelentéshez
@@ -185,30 +158,6 @@ A rendszer két felhasználói szerepkört támogat:
 
 ### Statisztikák
 - `GET /api/statistics` - Általános statisztikák
-- `GET /api/statistics/trends` - Trend adatok
-
-## Egyedi Jellemzők
-
-- **Interaktív koordináta választás**: Térképre kattintva automatikus kitöltés
-- **Beágyazott térképek**: Koordináta szöveg helyett vizuális térkép
-- **Kategorizálás**: Részletes jelenség típusok
-- **Gamifikáció**: Jelvények, szintek a felhasználóknak
-- **Modern dizájn**: Felhasználóbarát felület
-
-## Projekt Előnyei Vizsgán
-
-**Komplex CRUD műveletek** - Teljes értékű adatkezelés  
-**REST API** - Backend-Frontend szétválasztás  
-**Adatvalidáció** - Backend és Frontend szinten  
-**Autentikáció & Authorizáció** - Laravel Sanctum Bearer token, szerepkör-alapú hozzáférés  
-**Register/Login/Logout** - Teljes felhasználói életciklus  
-**Admin felület** - Moderációs és kezelési funkciók  
-**Fájl kezelés** - Kép feltöltés és tárolás  
-**Google Maps API** - Térkép integráció, Geocoding, Marker Clustering  
-**MySQL adatbázis** - Relációs adatbázis tervezés és kezelés  
-**Responsive dizájn** - Mobilbarát felület  
-**Adatbázis kapcsolatok** - Relációk kezelése (1:N, N:M)  
-**Biztonsági szempontok** - SQL injection védelem, XSS védelem, szerepkör-alapú jogosultságok  
 
 ## Fejlesztési Fázisok
 
